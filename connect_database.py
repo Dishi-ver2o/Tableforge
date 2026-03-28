@@ -1,5 +1,6 @@
 import streamlit as st
-from sqlalchemy import create_engine, inspect
+from sqlalchemy import inspect
+from backend.db import connect_sqlite, connect_postgresql, connect_mysql
 
 st.set_page_config(
     page_title="Connect Database - TableForge",
@@ -44,15 +45,15 @@ if st.session_state.db_type == "sqlite":
 
         if submit:
             try:
-                engine = create_engine(f"sqlite:///{db_path}")
-                with engine.connect():
-                    pass
+                # Call backend function
+                engine = connect_sqlite(db_path)
 
                 st.session_state.db_engine = engine
                 st.session_state.db_connected = True
 
                 st.success("Connected to SQLite!")
 
+                # Show tables
                 inspector = inspect(engine)
                 tables = inspector.get_table_names()
                 st.info(f"Tables found: {len(tables)}")
@@ -75,15 +76,9 @@ elif st.session_state.db_type == "postgresql":
 
         if submit:
             try:
-                conn = f"postgresql://{user}:{password}@{host}:{port}/{database}"
-                engine = create_engine(conn)
-
-                with engine.connect():
-                    pass
-
+                engine = connect_postgresql(user, password, host, port, database)
                 st.session_state.db_engine = engine
                 st.session_state.db_connected = True
-
                 st.success("Connected to PostgreSQL!")
 
             except Exception as e:
@@ -104,15 +99,9 @@ elif st.session_state.db_type == "mysql":
 
         if submit:
             try:
-                conn = f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}"
-                engine = create_engine(conn)
-
-                with engine.connect():
-                    pass
-
+                engine = connect_mysql(user, password, host, port, database)
                 st.session_state.db_engine = engine
                 st.session_state.db_connected = True
-
                 st.success("Connected to MySQL!")
 
             except Exception as e:

@@ -1,6 +1,5 @@
 import streamlit as st
-import pandas as pd
-from sqlalchemy import inspect, text
+from backend.tables import get_tables, read_table, save_table, create_table
 
 st.set_page_config(
     page_title="Table Editor - TableForge",
@@ -17,17 +16,16 @@ if "db_connected" not in st.session_state or not st.session_state.db_connected:
     st.stop()
 
 engine = st.session_state.db_engine
-inspector = inspect(engine)
 
-tables = inspector.get_table_names()
+# Get all tables
+tables = get_tables(engine)
 
+# If no tables, show create table form
 if not tables:
     st.warning("No tables found in this database.")
 
     st.subheader("Create Your First Table")
-
     table_name = st.text_input("Table Name")
-
     columns = st.text_area(
         "Columns (name:type)",
         """id:INTEGER
@@ -38,16 +36,11 @@ age:INTEGER"""
 
     if st.button("Create Table"):
         try:
-            cols = []
-            for line in columns.split("\n"):
-                if line.strip():
-                    name, dtype = line.split(":")
-                    cols.append(f"{name.strip()} {dtype.strip()}")
+            # Convert columns text to list of tuples
+            cols = [(line.split(":")[0].strip(), line.split(":")[1].strip())
+                    for line in columns.split("\n") if line.strip()]
 
-            sql = f"CREATE TABLE {table_name} ({', '.join(cols)})"
-
-            with engine.begin() as conn:
-                conn.execute(text(sql))
+            create_table(engine, table_name, cols)
 
             st.success("Table created successfully!")
             st.rerun()
@@ -62,7 +55,7 @@ st.sidebar.title("Tables")
 selected_table = st.sidebar.selectbox("Select Table", tables)
 
 # Load table
-df = pd.read_sql(f"SELECT * FROM {selected_table}", engine)
+df = read_table(engine, selected_table)
 
 st.subheader(f"Editing: {selected_table}")
 
@@ -78,9 +71,7 @@ col1, col2, col3 = st.columns(3)
 with col1:
     if st.button("Save Changes"):
         try:
-            with engine.begin() as conn:
-                conn.execute(text(f"DELETE FROM {selected_table}"))
-                edited_df.to_sql(selected_table, conn, if_exists="append", index=False)
+            save_table(engine, selected_table, edited_df)
             st.success("Saved successfully")
         except Exception as e:
             st.error(e)
@@ -101,7 +92,6 @@ if st.session_state.get("show_create"):
     st.subheader("Create New Table")
 
     table_name = st.text_input("Table Name")
-
     columns = st.text_area(
         "Columns (name:type)",
         """id:INTEGER
@@ -111,16 +101,10 @@ age:INTEGER"""
 
     if st.button("Create"):
         try:
-            cols = []
-            for line in columns.split("\n"):
-                if line.strip():
-                    name, dtype = line.split(":")
-                    cols.append(f"{name.strip()} {dtype.strip()}")
+            cols = [(line.split(":")[0].strip(), line.split(":")[1].strip())
+                    for line in columns.split("\n") if line.strip()]
 
-            sql = f"CREATE TABLE {table_name} ({', '.join(cols)})"
-
-            with engine.begin() as conn:
-                conn.execute(text(sql))
+            create_table(engine, table_name, cols)
 
             st.success("Table created!")
             st.rerun()
