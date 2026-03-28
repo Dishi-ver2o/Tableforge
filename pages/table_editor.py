@@ -22,7 +22,39 @@ inspector = inspect(engine)
 tables = inspector.get_table_names()
 
 if not tables:
-    st.info("No tables found.")
+    st.warning("No tables found in this database.")
+
+    st.subheader("Create Your First Table")
+
+    table_name = st.text_input("Table Name")
+
+    columns = st.text_area(
+        "Columns (name:type)",
+        """id:INTEGER
+name:TEXT
+email:TEXT
+age:INTEGER"""
+    )
+
+    if st.button("Create Table"):
+        try:
+            cols = []
+            for line in columns.split("\n"):
+                if line.strip():
+                    name, dtype = line.split(":")
+                    cols.append(f"{name.strip()} {dtype.strip()}")
+
+            sql = f"CREATE TABLE {table_name} ({', '.join(cols)})"
+
+            with engine.begin() as conn:
+                conn.execute(text(sql))
+
+            st.success("Table created successfully!")
+            st.rerun()
+
+        except Exception as e:
+            st.error(e)
+
     st.stop()
 
 # Sidebar
