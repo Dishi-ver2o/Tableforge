@@ -17,11 +17,10 @@ def save_table(engine, table_name, df):
         conn.execute(text(f"DELETE FROM {table_name}"))
         df.to_sql(table_name, conn, if_exists="append", index=False)
 
-def create_table(engine, table_name, columns):
-    """
-    Create a new table
-    columns = list of tuples [('id', 'INTEGER'), ('name', 'TEXT')]
-    """
+from backend.utils import validate_columns
+
+def create_table(engine, table_name, columns_text):
+    columns = validate_columns(columns_text)
     cols_sql = ", ".join([f"{name} {dtype}" for name, dtype in columns])
     sql = f"CREATE TABLE {table_name} ({cols_sql})"
     with engine.begin() as conn:
