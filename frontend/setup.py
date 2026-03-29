@@ -4,7 +4,7 @@ conn = sqlite3.connect("tableforge.db")
 cursor = conn.cursor()
 
 cursor.execute("""
-CREATE TABLE customers (
+CREATE TABLE students (
     id INTEGER PRIMARY KEY,
     name TEXT,
     city TEXT
