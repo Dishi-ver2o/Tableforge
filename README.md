@@ -91,5 +91,5 @@ This isn’t just another tool. It’s a big step toward making databases someth
 - **Dishi Rautela** – Backend Development & UI Enhancement  
 - **Soniya Negi** – User Interface Design and User Experience 
 - **Mahee Arya** – README Editing & Updates  
-- **Kartik** – Database Connectivity & Data Integrity  
+- **Priyanshu** – Database Connectivity & Data Integrity  
 
