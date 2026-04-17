@@ -8,88 +8,238 @@
 [View PPT](https://github.com/WTC-Group-2/wtc-round-2-group-2-codex/blob/main/CodeX_pptx.pptx) | 
 [Download PPT](https://github.com/WTC-Group-2/wtc-round-2-group-2-codex/raw/main/CodeX_pptx.pptx)
 
-#  About the Project
+# TableForge
+
+### Spreadsheet Simplicity. Database Power.
 
 ---
 
+# About the Project
+
 ## Introduction
 
-Data is everywhere these days. Pretty much every app you use relies on some kind of database—think SQLite, MySQL, or PostgreSQL. But unless you know how to code, working with them is no walk in the park. SQL? Not exactly beginner-friendly. And the standard tools? Honestly, they scare off anyone who’s not a developer.
+Data drives almost every modern application. Whether it is a student portal, an e-commerce website, a hospital management system, or a business dashboard, structured data is usually stored in databases such as SQLite, MySQL, or PostgreSQL.
 
-Spreadsheets like Google Sheets or Airtable? Those are a breeze. Anyone can start clicking around and get work done. The problem is, they don’t offer the power or flexibility you get with a true database. So you’re stuck: use something easy but limited, or wrestle with a system that’s powerful but intimidating.
+While databases are powerful, using them often requires SQL knowledge, technical tools, and experience. For many users, this becomes a barrier.
 
-That’s why we built **TableForge**. It’s a platform that feels as simple as a spreadsheet but packs all the muscle of a real database.
+On the other hand, spreadsheets are simple, visual, and beginner-friendly. Anyone can start editing rows and columns immediately—but spreadsheets lack the strength, scalability, and reliability of real databases.
+
+**TableForge** was built to solve this gap.
+
+It combines the ease of spreadsheets with the power of databases, allowing users to manage data visually without writing SQL queries.
 
 ---
 
 ## What Makes TableForge Different
 
-TableForge turns database work into something you can see and touch.  
+TableForge turns database management into a cleaner and simpler experience.
 
-- It looks and works like a spreadsheet. When you open your data, you’re just editing cells—no scary forms or commands.  
-- And it’s not just window dressing. TableForge actually connects to real databases like SQLite and will soon support MySQL and PostgreSQL. So you get the simplicity up front, but all the heavy lifting happens behind the scenes.  
-- You can skip writing any SQL. You just click to edit, filter, or sort your data—done.  
-- Your changes sync instantly with the database.  
-- When you add a number or a date, TableForge gives you the right input fields and checks your data automatically, so you stay out of trouble and your data stays clean.  
-- You’re not guessing how your tables relate — TableForge shows you exactly what connects where. Everything is easy to explore visually, so you finally get a clear picture of your database.  
+### Key Advantages
 
----
+- Spreadsheet-style interface for editing records
+- Direct support for real databases
+- No SQL required for common operations
+- Fast table browsing and editing
+- Live database updates
+- Modern responsive user interface
 
-## Why We Think TableForge Matters
-
-We tried the usual tools and always ran into the same wall. Spreadsheets are fast, but hit their ceiling way too soon. Database software gives you power, but expects you to know too much. TableForge finally lands in the middle.
-
-It gives you the comfort of spreadsheets, but you’re working with real live databases underneath it all. Your data is yours—no lock-in, no secret sauce.
-
-**Simple to use. Full control. All the power you need.** That’s what sets TableForge apart.
+Instead of dealing with commands and queries, users interact with data in a way they already understand.
 
 ---
 
-## Homepage
+# Core Features
 
-We wanted the homepage to make you feel at ease right away. No walls of text, nothing confusing. Just clear options—start a new database session or connect to your database.
+## Multi-Database Support
 
-One quick look, and you know what TableForge does. Even if you’ve never touched a database, you can dive in without any hesitation.
+TableForge supports multiple popular database engines:
 
----
+- SQLite
+- MySQL
+- PostgreSQL
 
-## Database Connection Page
-
-This step shouldn’t be complicated, so we kept it simple. You just pick your database (right now, that’s SQLite, but MySQL and PostgreSQL are coming) and connect. Your tables show up immediately.
-
-We handle all the connection trickiness with SQLAlchemy behind the scenes, keeping things secure and seamless.
-
-Really, all we want is to take the pain out of setup, so anyone can get started.
+This gives users flexibility to work locally or with server-based databases.
 
 ---
 
-## Table Editor Page
+## Smart Table Editor
 
-Here’s where the magic happens. All your data shows up in a familiar, spreadsheet-style grid. Click into a cell to edit. Add or delete rows without worry. Sort and filter however you want—everything updates your actual database in real time.
+The main editor provides a spreadsheet-like environment where users can:
 
-We’ve got your back with validation too, so your data stays accurate and clean, not messy and broken. It’s easy and powerful at the same time.
-
----
-
-## Technologies
-
-- **Frontend:** Streamlit, JavaScript, Custom CSS  
-- **Backend:** Python handles the logic  
-- **Database Integration:** SQLAlchemy  
-- **Database:** Right now, SQLite, with more coming soon  
+- Edit rows and columns
+- Add new records
+- Modify existing values
+- Create new tables
+- Add columns dynamically
+- Save changes directly to database
 
 ---
 
-## Wrapping Up – Conclusion
+## Data Tools
 
-TableForge makes working with databases genuinely simple, but doesn’t limit what you can do. We put the power of real databases in a friendlier, down-to-earth package. Now, anyone can handle data—beginners, experts, whoever—without feeling boxed in or overwhelmed.
+Built-in tools improve productivity:
 
-This isn’t just another tool. It’s a big step toward making databases something everyone can use.
+- Search rows quickly
+- Filter by values
+- Sort columns
+- Inspect tables
+- Manage schema visually
 
-## Roles Performed by Team Members
+---
 
-- **Dishi Rautela** – Backend Development & UI Enhancement  
-- **Soniya Negi** – User Interface Design and User Experience 
-- **Mahee Arya** – README Editing & Updates  
-- **Priyanshu** – Database Connectivity & Data Integrity  
+## User Experience
+
+The interface is designed for speed and simplicity:
+
+- Clean layouts
+- Responsive design
+- Easy navigation
+- Minimal learning curve
+- Beginner-friendly workflow
+
+---
+
+# Homepage
+
+The homepage gives users a quick understanding of the product.
+
+Users can:
+
+- Start a new database session
+- Connect an existing database
+- Learn the key benefits
+- Navigate quickly
+
+The goal is to remove confusion and help users begin immediately.
+
+---
+
+# Database Connection Page
+
+Connecting databases should not be difficult.
+
+TableForge provides a guided connection flow where users can choose a database type and enter credentials easily.
+
+Supported connection modes include:
+
+- Local SQLite files
+- MySQL server connection
+- PostgreSQL server connection
+
+The backend uses SQLAlchemy to handle secure and flexible database connectivity.
+
+---
+
+# Table Editor Page
+
+This is the main workspace of TableForge.
+
+Inside the editor, users can:
+
+- Click cells to edit data
+- Add or remove records
+- Search and filter content
+- Sort columns
+- Save changes in real time
+
+It delivers spreadsheet comfort with real database strength.
+
+---
+
+# Technology Stack
+
+## Frontend
+
+- Streamlit
+- JavaScript
+- Custom CSS
+
+## Backend
+
+- Python
+
+## Database Layer
+
+- SQLAlchemy
+
+## Data Handling
+
+- Pandas
+
+## Databases
+
+- SQLite
+- MySQL
+- PostgreSQL
+
+# Project Structure
+
+```bash
+final-round-codex/
+├── home.py
+├── requirements.txt
+├── README.md
+├── backend/
+│   ├── config.py
+│   ├── tables.py
+│   ├── utils.py
+│   └── db/
+│       ├── sqlite.py
+│       ├── mysql.py
+│       └── postgresql.py
+├── pages/
+│   ├── connect_database.py
+│   └── table_editor.py
+```
+
+---
+
+# How to Run
+
+## 1. Clone Repository
+
+```bash
+git clone <repository-url>
+cd final-round-codex
+```
+
+## 2. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+## 3. Launch Application
+
+```bash
+streamlit run home.py
+```
+
+---
+
+
+# Value
+
+TableForge is highly relevant project because it solves a real and common problem:
+
+**How can non-technical users manage databases easily?**
+
+It demonstrates:
+
+* Real problem solving
+* Strong UI/UX thinking
+* Functional backend engineering
+* Database integration
+* Practical market relevance
+
+
+
+# Roles Performed by Team Members
+
+* **Dishi Rautela** – Backend Development & UI Enhancement
+* **Soniya Negi** – User Interface Design and User Experience
+* **Mahee Arya** – README Editing & Updates
+* **Priyanshu Bisht** – Database Connectivity & Data Integrity
+
+---
+© 2026 TableForge — Built with ❤️ by Team CodeX
 
