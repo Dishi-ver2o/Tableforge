@@ -6,8 +6,11 @@ import streamlit as st
 st.set_page_config(
     page_title="TableForge",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
+
+if "show_home_menu" not in st.session_state:
+    st.session_state.show_home_menu = False
 
 # ============================================================
 # CSS + ANIMATIONS
@@ -95,20 +98,20 @@ header { visibility: hidden; }
 
 /* ===== KEYFRAMES ===== */
 @keyframes float {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    33% { transform: translateY(-20px) rotate(3deg); }
-    66% { transform: translateY(10px) rotate(-2deg); }
+    0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+    33% { transform: translateY(-28px) rotate(4deg) scale(1.05); }
+    66% { transform: translateY(14px) rotate(-3deg) scale(0.98); }
 }
 
 @keyframes float-reverse {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    33% { transform: translateY(15px) rotate(-3deg); }
-    66% { transform: translateY(-25px) rotate(2deg); }
+    0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+    33% { transform: translateY(20px) rotate(-4deg) scale(0.98); }
+    66% { transform: translateY(-32px) rotate(3deg) scale(1.06); }
 }
 
 @keyframes pulse-glow {
-    0%, 100% { opacity: 0.4; transform: scale(1); }
-    50% { opacity: 0.7; transform: scale(1.05); }
+    0%, 100% { opacity: 0.48; transform: scale(1); }
+    50% { opacity: 0.9; transform: scale(1.12); }
 }
 
 @keyframes shimmer {
@@ -148,10 +151,22 @@ header { visibility: hidden; }
 }
 
 @keyframes particle-drift {
-    0% { transform: translateY(0) translateX(0); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+    0% { transform: translateY(0) translateX(0) scale(0.7); opacity: 0; }
+    10% { opacity: 0.95; }
+    50% { transform: translateY(-48vh) translateX(18px) scale(1.2); opacity: 1; }
+    90% { opacity: 0.95; }
+    100% { transform: translateY(-100vh) translateX(60px) scale(0.8); opacity: 0; }
+}
+
+@keyframes orb-drift {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    35% { transform: translate3d(30px, -24px, 0) scale(1.08); }
+    70% { transform: translate3d(-22px, 18px, 0) scale(0.95); }
+}
+
+@keyframes icon-flicker {
+    0%, 100% { opacity: 0.22; filter: drop-shadow(0 0 0 rgba(125, 211, 252, 0)); }
+    50% { opacity: 0.46; filter: drop-shadow(0 0 14px rgba(125, 211, 252, 0.35)); }
 }
 
 @keyframes orbit {
@@ -177,34 +192,34 @@ header { visibility: hidden; }
 .orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(80px);
-    animation: pulse-glow 6s ease-in-out infinite;
+    filter: blur(58px);
+    animation: pulse-glow 5.4s ease-in-out infinite, orb-drift 12s ease-in-out infinite;
 }
 
 .orb-1 {
     width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(124,58,237,0.25), transparent 70%);
+    background: radial-gradient(circle, rgba(124,58,237,0.34), transparent 72%);
     top: -10%; left: -5%;
     animation-delay: 0s;
 }
 
 .orb-2 {
     width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(6,182,212,0.2), transparent 70%);
+    background: radial-gradient(circle, rgba(6,182,212,0.3), transparent 72%);
     top: 40%; right: -8%;
     animation-delay: 2s;
 }
 
 .orb-3 {
     width: 350px; height: 350px;
-    background: radial-gradient(circle, rgba(236,72,153,0.15), transparent 70%);
+    background: radial-gradient(circle, rgba(236,72,153,0.24), transparent 72%);
     bottom: -5%; left: 30%;
     animation-delay: 4s;
 }
 
 .orb-4 {
     width: 250px; height: 250px;
-    background: radial-gradient(circle, rgba(124,58,237,0.2), transparent 70%);
+    background: radial-gradient(circle, rgba(124,58,237,0.28), transparent 72%);
     top: 60%; left: 10%;
     animation-delay: 1s;
 }
@@ -222,22 +237,23 @@ header { visibility: hidden; }
 .particle {
     position: absolute;
     bottom: -10px;
-    width: 3px; height: 3px;
-    background: rgba(124, 58, 237, 0.6);
+    width: 5px; height: 5px;
+    background: rgba(124, 58, 237, 0.78);
     border-radius: 50%;
     animation: particle-drift linear infinite;
+    box-shadow: 0 0 12px rgba(125, 211, 252, 0.26);
 }
 
-.particle:nth-child(1) { left: 10%; animation-duration: 12s; animation-delay: 0s; background: rgba(124,58,237,0.5); }
-.particle:nth-child(2) { left: 20%; animation-duration: 15s; animation-delay: 2s; background: rgba(6,182,212,0.5); width: 2px; height: 2px; }
-.particle:nth-child(3) { left: 35%; animation-duration: 10s; animation-delay: 4s; background: rgba(236,72,153,0.4); }
-.particle:nth-child(4) { left: 50%; animation-duration: 18s; animation-delay: 1s; background: rgba(124,58,237,0.3); width: 4px; height: 4px; }
-.particle:nth-child(5) { left: 65%; animation-duration: 14s; animation-delay: 3s; background: rgba(6,182,212,0.4); }
-.particle:nth-child(6) { left: 75%; animation-duration: 11s; animation-delay: 5s; background: rgba(236,72,153,0.5); width: 2px; height: 2px; }
-.particle:nth-child(7) { left: 85%; animation-duration: 16s; animation-delay: 0.5s; background: rgba(124,58,237,0.4); }
-.particle:nth-child(8) { left: 45%; animation-duration: 20s; animation-delay: 6s; background: rgba(6,182,212,0.3); width: 4px; height: 4px; }
-.particle:nth-child(9) { left: 5%;  animation-duration: 13s; animation-delay: 7s; background: rgba(236,72,153,0.3); }
-.particle:nth-child(10){ left: 90%; animation-duration: 17s; animation-delay: 1.5s; background: rgba(124,58,237,0.5); width: 2px; height: 2px; }
+.particle:nth-child(1) { left: 10%; animation-duration: 9s; animation-delay: 0s; background: rgba(124,58,237,0.74); }
+.particle:nth-child(2) { left: 20%; animation-duration: 11s; animation-delay: 2s; background: rgba(6,182,212,0.78); width: 4px; height: 4px; }
+.particle:nth-child(3) { left: 35%; animation-duration: 8s; animation-delay: 4s; background: rgba(236,72,153,0.68); }
+.particle:nth-child(4) { left: 50%; animation-duration: 12s; animation-delay: 1s; background: rgba(124,58,237,0.62); width: 6px; height: 6px; }
+.particle:nth-child(5) { left: 65%; animation-duration: 10s; animation-delay: 3s; background: rgba(6,182,212,0.7); }
+.particle:nth-child(6) { left: 75%; animation-duration: 8.5s; animation-delay: 5s; background: rgba(236,72,153,0.74); width: 4px; height: 4px; }
+.particle:nth-child(7) { left: 85%; animation-duration: 11.5s; animation-delay: 0.5s; background: rgba(124,58,237,0.72); }
+.particle:nth-child(8) { left: 45%; animation-duration: 13s; animation-delay: 6s; background: rgba(6,182,212,0.62); width: 6px; height: 6px; }
+.particle:nth-child(9) { left: 5%;  animation-duration: 9.5s; animation-delay: 7s; background: rgba(236,72,153,0.62); }
+.particle:nth-child(10){ left: 90%; animation-duration: 12.5s; animation-delay: 1.5s; background: rgba(124,58,237,0.76); width: 4px; height: 4px; }
 
 /* ===== NAVBAR ===== */
 .navbar-container {
@@ -310,6 +326,13 @@ header { visibility: hidden; }
     text-align: center;
 }
 
+.navbar-menu-slot {
+    position: absolute;
+    left: 34px;
+    top: 34px;
+    z-index: 3;
+}
+
 .logo {
     font-size: clamp(34px, 3.4vw, 56px);
     font-weight: 800;
@@ -372,52 +395,81 @@ header { visibility: hidden; }
     box-shadow: 0 8px 20px rgba(14, 165, 233, 0.08);
 }
 
-/* ===== SIDEBAR NAV ===== */
-section[data-testid="stSidebar"] {
-    background: rgba(241, 245, 249, 0.96);
-    border-right: 1px solid rgba(203, 213, 225, 0.9);
+/* ===== FLOATING MENU ===== */
+.menu-anchor {
+    width: min(260px, 100%);
+    margin: -206px 0 0 34px;
+    position: relative;
+    z-index: 1100;
 }
 
-section[data-testid="stSidebar"] > div {
-    background: transparent;
+div[data-testid="stButton"] > button[kind="secondary"],
+div[data-testid="stButton"] > button[kind="primary"],
+div[data-testid="stButton"] > button {
+    border-radius: 999px;
+    min-height: 46px;
+    padding: 0 16px;
+    border: 1px solid rgba(125, 211, 252, 0.22);
+    background: linear-gradient(135deg, rgba(20, 61, 117, 0.94), rgba(28, 83, 152, 0.94));
+    color: #f8fbff;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    box-shadow: 0 14px 32px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255,255,255,0.08);
 }
 
-section[data-testid="stSidebar"] [data-testid="stSidebarNav"] {
-    display: none;
+div[data-testid="stButton"] > button:hover {
+    border-color: rgba(125, 211, 252, 0.36);
+    background: linear-gradient(135deg, rgba(23, 69, 131, 0.98), rgba(30, 92, 164, 0.98));
+    color: #ffffff;
 }
 
-section[data-testid="stSidebar"] div[data-testid="stPageLink"] {
-    width: 100%;
-    margin-bottom: 8px;
+.menu-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 14px;
 }
 
-section[data-testid="stSidebar"] div[data-testid="stPageLink"] a {
-    width: 100%;
+.menu-links div[data-testid="stPageLink"] {
+    width: auto;
+    margin-bottom: 0;
+}
+
+.menu-links div[data-testid="stPageLink"] a {
+    width: auto;
+    min-width: 132px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    padding: 10px 12px;
-    border-radius: 10px;
-    background: transparent;
-    border: 1px solid transparent;
-    color: #334e73;
-    font-size: 14px;
-    font-weight: 500;
+    justify-content: center;
+    padding: 12px 18px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    color: #e5ecf6;
+    font-size: 15px;
+    font-weight: 600;
     text-decoration: none;
-    box-shadow: none;
-    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
-section[data-testid="stSidebar"] div[data-testid="stPageLink"] a:hover {
-    background: rgba(203, 213, 225, 0.35);
-    color: #1e3151;
+.menu-links div[data-testid="stPageLink"] a:hover {
+    transform: translateY(-1px);
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(125, 211, 252, 0.28);
+    color: #ffffff;
 }
 
-section[data-testid="stSidebar"] div[data-testid="stPageLink"] a[aria-current="page"] {
-    background: rgba(214, 221, 236, 0.92);
-    border-color: rgba(214, 221, 236, 0.92);
-    color: #1e3151;
+.menu-links div[data-testid="stPageLink"] a[aria-current="page"] {
+    background: linear-gradient(135deg, rgba(224, 231, 255, 0.95), rgba(214, 221, 236, 0.94));
+    border-color: rgba(224, 231, 255, 0.92);
+    color: #183153;
     font-weight: 700;
+}
+
+.menu-spacer {
+    height: 0;
 }
 
 /* ===== HERO SECTION ===== */
@@ -803,21 +855,22 @@ section[data-testid="stSidebar"] div[data-testid="stPageLink"] a[aria-current="p
     width: 100%; height: 100%;
     top: 0; left: 0;
     pointer-events: none;
-    z-index: -1;
+    z-index: 0;
 }
 
 .hero-float-icon {
     position: absolute;
-    font-size: 28px;
-    opacity: 0.12;
+    font-size: 36px;
+    opacity: 0.24;
+    filter: drop-shadow(0 0 10px rgba(14, 165, 233, 0.18));
 }
 
-.hero-float-icon:nth-child(1) { top: 15%; left: 8%;  animation: float 8s ease-in-out infinite; }
-.hero-float-icon:nth-child(2) { top: 25%; right: 10%; animation: float-reverse 9s ease-in-out infinite; animation-delay: 1s; }
-.hero-float-icon:nth-child(3) { bottom: 20%; left: 12%; animation: float 10s ease-in-out infinite; animation-delay: 2s; }
-.hero-float-icon:nth-child(4) { bottom: 30%; right: 8%; animation: float-reverse 7s ease-in-out infinite; animation-delay: 0.5s; }
-.hero-float-icon:nth-child(5) { top: 45%; left: 5%;  animation: float 11s ease-in-out infinite; animation-delay: 3s; }
-.hero-float-icon:nth-child(6) { top: 10%; right: 20%; animation: float-reverse 8s ease-in-out infinite; animation-delay: 1.5s; }
+.hero-float-icon:nth-child(1) { top: 15%; left: 8%;  animation: float 6.5s ease-in-out infinite, icon-flicker 3.4s ease-in-out infinite; }
+.hero-float-icon:nth-child(2) { top: 25%; right: 10%; animation: float-reverse 7.2s ease-in-out infinite, icon-flicker 4s ease-in-out infinite; animation-delay: 0.8s; }
+.hero-float-icon:nth-child(3) { bottom: 20%; left: 12%; animation: float 7.6s ease-in-out infinite, icon-flicker 3.8s ease-in-out infinite; animation-delay: 1.4s; }
+.hero-float-icon:nth-child(4) { bottom: 30%; right: 8%; animation: float-reverse 6.1s ease-in-out infinite, icon-flicker 3.2s ease-in-out infinite; animation-delay: 0.4s; }
+.hero-float-icon:nth-child(5) { top: 45%; left: 5%;  animation: float 8.2s ease-in-out infinite, icon-flicker 4.2s ease-in-out infinite; animation-delay: 2.2s; }
+.hero-float-icon:nth-child(6) { top: 10%; right: 20%; animation: float-reverse 6.8s ease-in-out infinite, icon-flicker 3.6s ease-in-out infinite; animation-delay: 1.1s; }
 
 /* ===== STATS BAR ===== */
 .stats-bar {
@@ -1247,8 +1300,17 @@ section[data-testid="stSidebar"] div[data-testid="stPageLink"] a[aria-current="p
         font-size: 11px;
         letter-spacing: 0.04em;
     }
-    section[data-testid="stSidebar"] [data-testid="stSidebarNav"] {
-        padding-top: 60px;
+    .menu-anchor {
+        width: 100%;
+        margin: -170px 20px 0;
+        max-width: 220px;
+    }
+    .menu-links {
+        gap: 10px;
+    }
+    .menu-links div[data-testid="stPageLink"] a {
+        min-width: 120px;
+        font-size: 14px;
     }
     .footer-section {
         margin-top: 88px;
@@ -1316,12 +1378,20 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ============================================================
-# SIDEBAR NAV
+# HOME MENU
 # ============================================================
-st.sidebar.markdown("<div style='height: 72px;'></div>", unsafe_allow_html=True)
-st.sidebar.page_link("home.py", label="home")
-st.sidebar.page_link("pages/connect_database.py", label="connect database")
-st.sidebar.page_link("pages/table_editor.py", label="table editor")
+st.markdown('<div class="menu-anchor">', unsafe_allow_html=True)
+if st.button("☰ Menu", key="home_menu_toggle", use_container_width=True):
+    st.session_state.show_home_menu = not st.session_state.show_home_menu
+
+if st.session_state.show_home_menu:
+    st.markdown('<div class="menu-links">', unsafe_allow_html=True)
+    st.page_link("home.py", label="home")
+    st.page_link("pages/connect_database.py", label="connect database")
+    st.page_link("pages/table_editor.py", label="table editor")
+    st.markdown('</div>', unsafe_allow_html=True)
+
+st.markdown('</div><div class="menu-spacer"></div>', unsafe_allow_html=True)
 
 # ============================================================
 # HERO SECTION
