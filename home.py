@@ -1307,7 +1307,7 @@ st.markdown("""
 st.markdown("""
 <div class="stats-bar">
     <div class="stat-item">
-        <div class="stat-number">3+</div>
+        <div class="stat-number">2+</div>
         <div class="stat-label">Database Types</div>
     </div>
     <div class="stat-divider"></div>
