@@ -1,12 +1,12 @@
 ## 📂 Project Files
 
-📄 **Project Report (PDF):**  
-[View PDF](https://github.com/WTC-Group-2/wtc-round-2-group-2-codex/blob/main/tableforge.pdf) | 
-[Download PDF](https://github.com/WTC-Group-2/wtc-round-2-group-2-codex/raw/main/tableforge.pdf)
+📄 **Project Report (PDF):**
+[View PDF](https://github.com/WTC-Group-2/wtc-round-2-group-2-codex/blob/main/tableforge.pdf) | [Download PDF](https://github.com/WTC-Group-2/wtc-round-2-group-2-codex/raw/main/tableforge.pdf)
 
-📊 **Presentation (PPT):**  
-[View PPT](https://github.com/WTC-Group-2/wtc-round-2-group-2-codex/blob/main/CodeX_pptx.pptx) | 
-[Download PPT](https://github.com/WTC-Group-2/wtc-round-2-group-2-codex/raw/main/CodeX_pptx.pptx)
+📊 **Presentation (PPT):**
+[View PPT](https://github.com/WTC-Group-2/wtc-round-2-group-2-codex/blob/main/CodeX_pptx.pptx) | [Download PPT](https://github.com/WTC-Group-2/wtc-round-2-group-2-codex/raw/main/CodeX_pptx.pptx)
+
+---
 
 # TableForge
 
@@ -14,36 +14,58 @@
 
 ---
 
-# About the Project
-
 ## Introduction
 
-Data drives almost every modern application. Whether it is a student portal, an e-commerce website, a hospital management system, or a business dashboard, structured data is usually stored in databases such as SQLite, MySQL, or PostgreSQL.
+Data is everywhere today. Nearly every modern application depends on databases to store, organize, and manage information. Popular systems such as SQLite, MySQL, and PostgreSQL power everything from student portals and e-commerce platforms to enterprise dashboards.
 
-While databases are powerful, using them often requires SQL knowledge, technical tools, and experience. For many users, this becomes a barrier.
+However, working with databases is often difficult for non-technical users. Traditional tools usually require:
 
-On the other hand, spreadsheets are simple, visual, and beginner-friendly. Anyone can start editing rows and columns immediately—but spreadsheets lack the strength, scalability, and reliability of real databases.
+* SQL knowledge
+* Complex setup processes
+* Technical understanding of schemas and queries
+* Developer-focused interfaces
 
-**TableForge** was built to solve this gap.
+At the same time, spreadsheet tools are simple and familiar—but they lack the scalability, structure, and reliability of real databases.
 
-It combines the ease of spreadsheets with the power of databases, allowing users to manage data visually without writing SQL queries.
+**TableForge was built to bridge this gap.**
+
+It combines the comfort of spreadsheets with the strength of databases, allowing users to manage structured data visually without needing to write SQL.
 
 ---
 
 ## What Makes TableForge Different
 
-TableForge turns database management into a cleaner and simpler experience.
+TableForge transforms database management into a practical and user-friendly experience.
 
 ### Key Advantages
 
-- Spreadsheet-style interface for editing records
-- Direct support for real databases
-- No SQL required for common operations
-- Fast table browsing and editing
-- Live database updates
-- Modern responsive user interface
+* Spreadsheet-style editing interface
+* Real database connectivity
+* No SQL required for everyday operations
+* Search, sort, and filtering tools
+* Live updates to connected databases
+* Dynamic table creation and column management
+* Support for multiple database systems
+* Clean modern interface built for productivity
 
-Instead of dealing with commands and queries, users interact with data in a way they already understand.
+Instead of commands and complicated panels, users interact directly with data in a familiar grid-based workspace.
+
+---
+
+## Why TableForge Matters
+
+Many database platforms are built primarily for developers and administrators. This creates friction for:
+
+* Students
+* Beginners
+* Office teams
+* Small businesses
+* Analysts
+* Non-technical users
+
+TableForge removes unnecessary complexity while preserving the real power of relational databases.
+
+It gives users full control over their data through a simpler and more approachable interface.
 
 ---
 
@@ -51,129 +73,118 @@ Instead of dealing with commands and queries, users interact with data in a way 
 
 ## Multi-Database Support
 
-TableForge supports multiple popular database engines:
+TableForge supports multiple database engines:
 
-- SQLite
-- MySQL
-- PostgreSQL
+* SQLite
+* MySQL
+* PostgreSQL
 
-This gives users flexibility to work locally or with server-based databases.
+This allows users to work locally or connect to production-ready server databases.
 
 ---
 
 ## Smart Table Editor
 
-The main editor provides a spreadsheet-like environment where users can:
+The main editor provides a spreadsheet-like experience where users can:
 
-- Edit rows and columns
-- Add new records
-- Modify existing values
-- Create new tables
-- Add columns dynamically
-- Save changes directly to database
+* Edit rows and columns visually
+* Add new records
+* Modify existing data
+* Create new tables
+* Add columns dynamically
+* Save changes directly to the connected database
 
 ---
 
 ## Data Tools
 
-Built-in tools improve productivity:
+Built-in tools improve speed and workflow:
 
-- Search rows quickly
-- Filter by values
-- Sort columns
-- Inspect tables
-- Manage schema visually
+* Search rows instantly
+* Filter records by value
+* Sort columns
+* Inspect available tables
+* Manage schema visually
 
 ---
 
 ## User Experience
 
-The interface is designed for speed and simplicity:
+The interface is designed for simplicity and speed:
 
-- Clean layouts
-- Responsive design
-- Easy navigation
-- Minimal learning curve
-- Beginner-friendly workflow
-
----
-
-# Homepage
-
-The homepage gives users a quick understanding of the product.
-
-Users can:
-
-- Start a new database session
-- Connect an existing database
-- Learn the key benefits
-- Navigate quickly
-
-The goal is to remove confusion and help users begin immediately.
+* Clean layouts
+* Responsive design
+* Easy navigation
+* Minimal learning curve
+* Beginner-friendly workflow
 
 ---
 
-# Database Connection Page
+## Homepage
 
-Connecting databases should not be difficult.
+The homepage is designed to make users comfortable immediately.
 
-TableForge provides a guided connection flow where users can choose a database type and enter credentials easily.
+It provides clear options to:
+
+* Start a new session
+* Connect an existing database
+* Understand the product quickly
+* Navigate with ease
+
+The goal is fast onboarding with zero confusion.
+
+---
+
+## Database Connection Page
+
+Connecting a database should be simple.
+
+TableForge offers a guided connection flow where users can choose their database type and connect securely.
 
 Supported connection modes include:
 
-- Local SQLite files
-- MySQL server connection
-- PostgreSQL server connection
+* Local SQLite files
+* MySQL server connection
+* PostgreSQL server connection
 
-The backend uses SQLAlchemy to handle secure and flexible database connectivity.
+The backend uses SQLAlchemy for stable and flexible database connectivity.
 
 ---
 
-# Table Editor Page
+## Table Editor Page
 
-This is the main workspace of TableForge.
+This is the core workspace of TableForge.
 
 Inside the editor, users can:
 
-- Click cells to edit data
-- Add or remove records
-- Search and filter content
-- Sort columns
-- Save changes in real time
+* Click cells to edit data
+* Add or remove rows
+* Search and filter content
+* Sort columns
+* Manage tables visually
+* Save changes in real time
 
-It delivers spreadsheet comfort with real database strength.
+It combines spreadsheet familiarity with database reliability.
 
 ---
 
 # Technology Stack
 
-## Frontend
+* **Frontend** — Streamlit, JavaScript, Custom CSS
 
-- Streamlit
-- JavaScript
-- Custom CSS
+* **Backend** — Python
 
-## Backend
+* **Database Layer** — SQLAlchemy
 
-- Python
+* **Data Handling** — Pandas
 
-## Database Layer
+* **Databases** — SQLite, MySQL, PostgreSQL
 
-- SQLAlchemy
-
-## Data Handling
-
-- Pandas
-
-## Databases
-
-- SQLite
-- MySQL
-- PostgreSQL
+---
 
 # Project Structure
 
-```bash
+```bash id="6vqg34"
 final-round-codex/
 ├── home.py
 ├── requirements.txt
@@ -197,41 +208,41 @@ final-round-codex/
 
 ## 1. Clone Repository
 
-```bash
+```bash id="9uddb3"
 git clone <repository-url>
 cd final-round-codex
 ```
 
 ## 2. Install Dependencies
 
-```bash
+```bash id="kdrzjk"
 pip install -r requirements.txt
 ```
 
 ## 3. Launch Application
 
-```bash
+```bash id="yzt0rj"
 streamlit run home.py
 ```
 
 ---
 
+# Project Value
 
-# Value
+TableForge solves a common real-world problem:
 
-TableForge is highly relevant project because it solves a real and common problem:
-
-**How can non-technical users manage databases easily?**
+**How can non-technical users manage databases easily without learning SQL?**
 
 It demonstrates:
 
 * Real problem solving
 * Strong UI/UX thinking
 * Functional backend engineering
-* Database integration
-* Practical market relevance
+* Multi-database integration
+* Practical usability
+* Product potential beyond hackathons
 
-
+---
 
 # Roles Performed by Team Members
 
@@ -241,5 +252,5 @@ It demonstrates:
 * **Priyanshu Bisht** – Database Connectivity & Data Integrity
 
 ---
-© 2026 TableForge — Built with ❤️ by Team CodeX
 
+© 2026 TableForge — Built with ❤️ by Team CodeX
