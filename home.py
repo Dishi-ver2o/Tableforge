@@ -6,7 +6,7 @@ import streamlit as st
 st.set_page_config(
     page_title="TableForge",
     layout="wide",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="expanded"
 )
 
 # ============================================================
@@ -370,6 +370,54 @@ header { visibility: hidden; }
     letter-spacing: 0.5px;
     border: 1px solid var(--border-strong);
     box-shadow: 0 8px 20px rgba(14, 165, 233, 0.08);
+}
+
+/* ===== SIDEBAR NAV ===== */
+section[data-testid="stSidebar"] {
+    background: rgba(241, 245, 249, 0.96);
+    border-right: 1px solid rgba(203, 213, 225, 0.9);
+}
+
+section[data-testid="stSidebar"] > div {
+    background: transparent;
+}
+
+section[data-testid="stSidebar"] [data-testid="stSidebarNav"] {
+    display: none;
+}
+
+section[data-testid="stSidebar"] div[data-testid="stPageLink"] {
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+section[data-testid="stSidebar"] div[data-testid="stPageLink"] a {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: #334e73;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    box-shadow: none;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+section[data-testid="stSidebar"] div[data-testid="stPageLink"] a:hover {
+    background: rgba(203, 213, 225, 0.35);
+    color: #1e3151;
+}
+
+section[data-testid="stSidebar"] div[data-testid="stPageLink"] a[aria-current="page"] {
+    background: rgba(214, 221, 236, 0.92);
+    border-color: rgba(214, 221, 236, 0.92);
+    color: #1e3151;
+    font-weight: 700;
 }
 
 /* ===== HERO SECTION ===== */
@@ -1199,6 +1247,9 @@ header { visibility: hidden; }
         font-size: 11px;
         letter-spacing: 0.04em;
     }
+    section[data-testid="stSidebar"] [data-testid="stSidebarNav"] {
+        padding-top: 60px;
+    }
     .footer-section {
         margin-top: 88px;
         min-height: 40vh;
@@ -1263,6 +1314,14 @@ st.markdown("""
     </div>
 </div>
 """, unsafe_allow_html=True)
+
+# ============================================================
+# SIDEBAR NAV
+# ============================================================
+st.sidebar.markdown("<div style='height: 72px;'></div>", unsafe_allow_html=True)
+st.sidebar.page_link("home.py", label="home")
+st.sidebar.page_link("pages/connect_database.py", label="connect database")
+st.sidebar.page_link("pages/table_editor.py", label="table editor")
 
 # ============================================================
 # HERO SECTION
