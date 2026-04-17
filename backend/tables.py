@@ -1,6 +1,6 @@
 # backend/tables.py
 import pandas as pd
-from sqlalchemy import text, inspect
+from sqlalchemy import inspect, text
 
 def get_tables(engine):
     """Return a list of table names in the database"""
@@ -19,9 +19,26 @@ def save_table(engine, table_name, df):
 
 from backend.utils import validate_columns
 
+
 def create_table(engine, table_name, columns_text):
-    columns = validate_columns(columns_text)
-    cols_sql = ", ".join([f"{name} {dtype}" for name, dtype in columns])
+    if isinstance(columns_text, list):
+        if all(":" in str(column) for column in columns_text):
+            columns = validate_columns(columns_text)
+            cols_sql = ", ".join([f"{name} {dtype}" for name, dtype in columns])
+        else:
+            cols_sql = ", ".join(columns_text)
+    else:
+        columns = validate_columns(columns_text)
+        cols_sql = ", ".join([f"{name} {dtype}" for name, dtype in columns])
+
     sql = f"CREATE TABLE {table_name} ({cols_sql})"
+    with engine.begin() as conn:
+        conn.execute(text(sql))
+
+
+def add_column(engine, table_name, column_name, data_type):
+    column = validate_columns([f"{column_name}:{data_type}"])[0]
+    name, dtype = column
+    sql = f"ALTER TABLE {table_name} ADD COLUMN {name} {dtype}"
     with engine.begin() as conn:
         conn.execute(text(sql))

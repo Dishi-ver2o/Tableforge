@@ -1,6 +1,6 @@
 # backend/utils.py
 def validate_columns(columns):
-    valid_types = {"INTEGER", "TEXT", "REAL", "BLOB"}
+    valid_types = {"INTEGER", "TEXT", "REAL", "BLOB", "BOOLEAN", "DATE"}
     cols = []
     if isinstance(columns, str):
         lines = columns.strip().split("\n")

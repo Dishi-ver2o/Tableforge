@@ -2,11 +2,11 @@
 DEFAULT_SQLITE_PATH = "database.db"
 
 DEFAULT_POSTGRESQL = {
+    "user": "postgres",
+    "password": "sonia56",     
     "host": "localhost",
-    "port": 5432,
-    "user": "testuser",
-    "password": "testpass",
-    "database": "testdb"
+    "port": "5432",
+    "database": "mydb"
 }
 
 DEFAULT_MYSQL = {
