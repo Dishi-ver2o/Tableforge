@@ -47,7 +47,7 @@ st.title("📊 TableForge Table Editor")
 if "db_connected" not in st.session_state or not st.session_state.db_connected:
     st.warning("No database connected. Using a temporary demo database.")
     if "db_engine" not in st.session_state or st.session_state.db_engine is None:
-        demo_engine = create_engine("sqlite:///:memory:")  # temporary in-memory DB
+        demo_engine = create_engine("sqlite:///:memory:")
         st.session_state.db_engine = demo_engine
         st.session_state.db_connected = True
         st.info("Demo database created! You can try adding tables and editing data.")
@@ -56,6 +56,19 @@ engine = st.session_state.db_engine
 
 # --- Get all tables ---
 tables = get_tables(engine)
+
+# --- Function to safely parse columns ---
+def parse_columns(columns_text):
+    cols = []
+    for line in columns_text.split("\n"):
+        line = line.strip()
+        if not line:
+            continue
+        if ":" not in line:
+            st.error(f"Invalid format: {line} (use name:TYPE)")
+            st.stop()
+        cols.append(line)
+    return cols
 
 # --- If no tables, show create table form ---
 if not tables:
@@ -74,10 +87,7 @@ age:INTEGER""",
 
     if st.button("Create Table", key="first_table_create"):
         try:
-            cols = [
-                (line.split(":")[0].strip(), line.split(":")[1].strip())
-                for line in columns.split("\n") if line.strip()
-            ]
+            cols = parse_columns(columns)   # ✅ FIXED
             create_table(engine, table_name, cols)
             st.success("Table created successfully!")
             st.rerun()
@@ -93,7 +103,7 @@ selected_table = st.sidebar.selectbox("Select Table", tables)
 df = read_table(engine, selected_table)
 st.subheader(f"Editing: {selected_table}")
 
-# --- Data editor with styled toolbar ---
+# --- Data editor ---
 edited_df = st.data_editor(
     df,
     use_container_width=True,
@@ -135,10 +145,7 @@ age:INTEGER""",
 
     if st.button("Create", key="new_table_create"):
         try:
-            cols = [
-                (line.split(":")[0].strip(), line.split(":")[1].strip())
-                for line in columns.split("\n") if line.strip()
-            ]
+            cols = parse_columns(columns)   # ✅ FIXED
             create_table(engine, table_name, cols)
             st.success("Table created!")
             st.rerun()
