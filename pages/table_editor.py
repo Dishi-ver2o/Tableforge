@@ -104,6 +104,22 @@ st.markdown(
         margin-bottom: 0.7rem;
     }
 
+    .sheet-toolbar {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(239, 247, 255, 0.95));
+        border: 1px solid rgba(175, 203, 227, 0.9);
+        border-radius: 14px;
+        padding: 0.6rem 0.65rem 0.2rem;
+        margin-bottom: 0.7rem;
+    }
+
+    .workspace-toolbar-note {
+        margin-top: 0.2rem;
+        margin-bottom: 0.55rem;
+        color: var(--text-soft);
+        font-size: 0.84rem;
+        font-weight: 700;
+    }
+
     .section-card {
         background: var(--card-bg);
         border: 1px solid rgba(175, 203, 227, 0.85);
@@ -228,6 +244,21 @@ st.markdown(
         background: rgba(255, 255, 255, 0.96);
     }
 
+    div[data-testid="stDataEditor"] [data-testid="stDataFrameToolbar"] {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    div[data-testid="stDataEditor"] [data-testid="stDataFrameToolbar"] > div {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    /* Hide the internal seed column entry (always last) in the native column selector list. */
+    div[data-testid="stDataEditor"] div[role="dialog"] div[data-testid="stCheckbox"]:last-of-type {
+        display: none !important;
+    }
+
     .stAlert {
         border-radius: 16px;
     }
@@ -238,6 +269,61 @@ st.markdown(
 
 
 DATA_TYPE_OPTIONS = ["INTEGER", "TEXT", "REAL", "BOOLEAN", "DATE", "BLOB"]
+FONT_OPTIONS = ["Calibri", "Aptos", "Manrope", "Inter"]
+FONT_SIZE_OPTIONS = ["10", "11", "12", "13", "14", "16"]
+ALIGN_OPTIONS = ["Left", "Center", "Right"]
+FILL_OPTIONS = ["Blue", "Beige", "White"]
+
+
+def get_search_match_count(df: pd.DataFrame, query: str):
+    query = query.strip()
+    if not query:
+        return len(df)
+
+    text_df = df.astype(str)
+    match_series = text_df.apply(
+        lambda column: column.str.contains(query, case=False, na=False, regex=False)
+    ).any(axis=1)
+    return int(match_series.sum())
+
+
+def build_editor_css(font_name, font_size, align, fill):
+    align_map = {
+        "Left": "left",
+        "Center": "center",
+        "Right": "right"
+    }
+
+    fill_map = {
+        "Blue": "rgba(227,241,255,0.95)",
+        "Beige": "rgba(247,235,220,0.96)",
+        "White": "rgba(255,255,255,0.96)"
+    }
+
+    return f"""
+    <style>
+    div[data-testid="stDataEditor"] [role="gridcell"] {{
+        font-family: '{font_name}', sans-serif !important;
+        font-size: {font_size}px !important;
+        text-align: {align_map.get(align, "left")} !important;
+        background: {fill_map.get(fill)} !important;
+    }}
+    </style>
+    """
+
+
+def merge_visible_and_hidden_columns(view_df: pd.DataFrame, original_df: pd.DataFrame):
+    merged_df = view_df.copy()
+    hidden_columns = [column for column in original_df.columns if column not in merged_df.columns]
+
+    if hidden_columns:
+        merged_df = merged_df.join(original_df[hidden_columns], how="left")
+
+    for column in original_df.columns:
+        if column not in merged_df.columns:
+            merged_df[column] = pd.NA
+
+    return merged_df[original_df.columns]
 
 
 def parse_columns(columns_text: str, db_type: str):
@@ -399,29 +485,17 @@ st.markdown(
 )
 
 st.markdown('<div class="toolbar-card">', unsafe_allow_html=True)
-st.markdown('<div class="toolbar-label">Formatting Ribbon</div>', unsafe_allow_html=True)
+st.markdown('<div class="toolbar-label">Action Ribbon</div>', unsafe_allow_html=True)
 
-toolbar_top = st.columns([1.1, 1.1, 1.4, 1.4, 1.3])
-with toolbar_top[0]:
+action_toolbar = st.columns([1.2, 1.2, 1.35, 1.2], gap="small")
+with action_toolbar[0]:
     save_clicked = st.button("Save Changes", width="stretch", type="primary", key="save_btn")
-with toolbar_top[1]:
+with action_toolbar[1]:
     refresh_clicked = st.button("Refresh", width="stretch", key="refresh_btn")
-with toolbar_top[2]:
+with action_toolbar[2]:
     create_clicked = st.button("Create Table", width="stretch", key="show_create_btn")
-with toolbar_top[3]:
+with action_toolbar[3]:
     add_column_clicked = st.button("Add Column", width="stretch", key="show_add_column_btn")
-with toolbar_top[4]:
-    st.text_input("Search", placeholder="Search rows...", key="ui_search")
-
-toolbar_bottom = st.columns([1.2, 0.85, 0.8, 0.9])
-with toolbar_bottom[0]:
-    st.selectbox("Font", ["Calibri", "Aptos", "Manrope", "Inter"], index=0, key="ui_font")
-with toolbar_bottom[1]:
-    st.selectbox("Size", ["10", "11", "12", "13", "14", "16"], index=1, key="ui_font_size")
-with toolbar_bottom[2]:
-    st.selectbox("Align", ["Left", "Center", "Right"], index=0, key="ui_align")
-with toolbar_bottom[3]:
-    st.selectbox("Fill", ["Blue", "Beige", "White"], index=0, key="ui_fill")
 
 st.markdown("</div>", unsafe_allow_html=True)
 
@@ -484,6 +558,68 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+st.markdown('<div class="sheet-toolbar">', unsafe_allow_html=True)
+
+workspace_controls = st.columns([2.7, 1.2, 0.95, 0.95, 1.0], gap="small")
+with workspace_controls[0]:
+    search = st.text_input(
+        "Search Rows",
+        placeholder="Search rows...",
+        key=f"search_{selected_table}",
+    )
+with workspace_controls[1]:
+    font = st.selectbox(
+        "Font",
+        FONT_OPTIONS,
+        index=2,
+        key=f"font_{selected_table}",
+    )
+with workspace_controls[2]:
+    size = st.selectbox(
+        "Size",
+        FONT_SIZE_OPTIONS,
+        index=1,
+        key=f"size_{selected_table}",
+    )
+with workspace_controls[3]:
+    align = st.selectbox(
+        "Align",
+        ALIGN_OPTIONS,
+        index=0,
+        key=f"align_{selected_table}",
+    )
+with workspace_controls[4]:
+    fill = st.selectbox(
+        "Fill",
+        FILL_OPTIONS,
+        index=0,
+        key=f"fill_{selected_table}",
+    )
+
+st.markdown("</div>", unsafe_allow_html=True)
+
+search_match_count = get_search_match_count(df, search)
+if search.strip():
+    st.markdown(
+        f'<div class="workspace-toolbar-note">Search matches: {search_match_count} row(s) across the active table.</div>',
+        unsafe_allow_html=True,
+    )
+
+st.markdown(build_editor_css(font, size, align, fill), unsafe_allow_html=True)
+
+view = f"view_{selected_table}"
+if view not in st.session_state:
+    st.session_state[view] = list(df.columns)
+
+seed = "__eye_seed__"
+
+cols = [c for c in st.session_state[view] if c in df.columns]
+if st.session_state[view] and not cols:
+    cols = list(df.columns)
+    st.session_state[view] = cols
+elif len(cols) != len(st.session_state[view]):
+    st.session_state[view] = cols
+
 column_config = {}
 for column in df.columns:
     actual_type = infer_editor_type(df[column])
@@ -504,24 +640,38 @@ for column in df.columns:
     else:
         column_config[column] = st.column_config.TextColumn(column)
 
-edited_df = st.data_editor(
-    df,
+work_df = df.copy()
+work_df[seed] = ""
+
+column_config[seed] = None
+
+grid = st.data_editor(
+    work_df,
     width="stretch",
     num_rows="dynamic",
     hide_index=False,
+    column_order=cols,
     column_config=column_config,
     key=f"editor_{selected_table}",
 )
 
+cols = [c for c in grid.columns if c in df.columns]
+if cols:
+    st.session_state[view] = cols
+elif df.columns.tolist():
+    st.session_state[view] = list(df.columns)
+
+candidate_save_df = merge_visible_and_hidden_columns(grid, df)
+
 st.markdown("</div>", unsafe_allow_html=True)
 
 if save_clicked:
-    valid, message = validate_no_nulls(edited_df)
+    valid, message = validate_no_nulls(candidate_save_df)
     if not valid:
         st.error(message)
     else:
         try:
-            save_table(engine, selected_table, edited_df)
+            save_table(engine, selected_table, candidate_save_df)
             st.success("Changes saved successfully.")
             st.rerun()
         except Exception as e:
