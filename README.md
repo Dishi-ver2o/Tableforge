@@ -1,8 +1,5 @@
 ## 📂 Project Files
 
-📄 **Project Report (PDF):**
-[View PDF](https://github.com/WTC-Group-2/wtc-round-2-group-2-codex/blob/main/tableforge.pdf) | [Download PDF](https://github.com/WTC-Group-2/wtc-round-2-group-2-codex/raw/main/tableforge.pdf)
-
 📊 **Presentation (PPT):**
 [View PPT](https://github.com/WTC-Group-2/wtc-round-2-group-2-codex/blob/main/CodeX_pptx.pptx) | [Download PPT](https://github.com/WTC-Group-2/wtc-round-2-group-2-codex/raw/main/CodeX_pptx.pptx)
 
@@ -244,13 +241,6 @@ It demonstrates:
 
 ---
 
-# Roles Performed by Team Members
-
-* **Dishi Rautela** – Backend Development & UI Enhancement
-* **Soniya Negi** – User Interface Design and User Experience
-* **Mahee Arya** – README Editing & Updates
-* **Priyanshu Bisht** – Database Connectivity & Data Integrity
-
 ---
 
-© 2026 TableForge — Built with ❤️ by Team CodeX
+© 2026 TableForge — Built with ❤️ by Priyanshu
