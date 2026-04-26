@@ -11,8 +11,6 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
-
     :root {
         --page-bg: #cfeaff;
         --shell-bg: #ffffff;
@@ -27,10 +25,6 @@ st.markdown(
         --peach-accent: #ffe6d6;
         --lavender-accent: #eee5ff;
         --border-blue: #afcbe3;
-    }
-
-    html, body, [class*="css"] {
-        font-family: 'Manrope', sans-serif;
     }
 
     .stApp {
@@ -102,22 +96,6 @@ st.markdown(
         color: var(--hero-blue-dark);
         font-weight: 800;
         margin-bottom: 0.7rem;
-    }
-
-    .sheet-toolbar {
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(239, 247, 255, 0.95));
-        border: 1px solid rgba(175, 203, 227, 0.9);
-        border-radius: 14px;
-        padding: 0.6rem 0.65rem 0.2rem;
-        margin-bottom: 0.7rem;
-    }
-
-    .workspace-toolbar-note {
-        margin-top: 0.2rem;
-        margin-bottom: 0.55rem;
-        color: var(--text-soft);
-        font-size: 0.84rem;
-        font-weight: 700;
     }
 
     .section-card {
@@ -244,14 +222,9 @@ st.markdown(
         background: rgba(255, 255, 255, 0.96);
     }
 
+    /* Hide the built-in data editor toolbar (bar above the grid). */
     div[data-testid="stDataEditor"] [data-testid="stDataFrameToolbar"] {
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-
-    div[data-testid="stDataEditor"] [data-testid="stDataFrameToolbar"] > div {
-        opacity: 1 !important;
-        visibility: visible !important;
+        display: none !important;
     }
 
     /* Hide the internal seed column entry (always last) in the native column selector list. */
@@ -269,47 +242,6 @@ st.markdown(
 
 
 DATA_TYPE_OPTIONS = ["INTEGER", "TEXT", "REAL", "BOOLEAN", "DATE", "BLOB"]
-FONT_OPTIONS = ["Calibri", "Aptos", "Manrope", "Inter"]
-FONT_SIZE_OPTIONS = ["10", "11", "12", "13", "14", "16"]
-ALIGN_OPTIONS = ["Left", "Center", "Right"]
-FILL_OPTIONS = ["Blue", "Beige", "White"]
-
-
-def get_search_match_count(df: pd.DataFrame, query: str):
-    query = query.strip()
-    if not query:
-        return len(df)
-
-    text_df = df.astype(str)
-    match_series = text_df.apply(
-        lambda column: column.str.contains(query, case=False, na=False, regex=False)
-    ).any(axis=1)
-    return int(match_series.sum())
-
-
-def build_editor_css(font_name, font_size, align, fill):
-    align_map = {
-        "Left": "left",
-        "Center": "center",
-        "Right": "right"
-    }
-
-    fill_map = {
-        "Blue": "rgba(227,241,255,0.95)",
-        "Beige": "rgba(247,235,220,0.96)",
-        "White": "rgba(255,255,255,0.96)"
-    }
-
-    return f"""
-    <style>
-    div[data-testid="stDataEditor"] [role="gridcell"] {{
-        font-family: '{font_name}', sans-serif !important;
-        font-size: {font_size}px !important;
-        text-align: {align_map.get(align, "left")} !important;
-        background: {fill_map.get(fill)} !important;
-    }}
-    </style>
-    """
 
 
 def merge_visible_and_hidden_columns(view_df: pd.DataFrame, original_df: pd.DataFrame):
@@ -557,55 +489,6 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-
-st.markdown('<div class="sheet-toolbar">', unsafe_allow_html=True)
-
-workspace_controls = st.columns([2.7, 1.2, 0.95, 0.95, 1.0], gap="small")
-with workspace_controls[0]:
-    search = st.text_input(
-        "Search Rows",
-        placeholder="Search rows...",
-        key=f"search_{selected_table}",
-    )
-with workspace_controls[1]:
-    font = st.selectbox(
-        "Font",
-        FONT_OPTIONS,
-        index=2,
-        key=f"font_{selected_table}",
-    )
-with workspace_controls[2]:
-    size = st.selectbox(
-        "Size",
-        FONT_SIZE_OPTIONS,
-        index=1,
-        key=f"size_{selected_table}",
-    )
-with workspace_controls[3]:
-    align = st.selectbox(
-        "Align",
-        ALIGN_OPTIONS,
-        index=0,
-        key=f"align_{selected_table}",
-    )
-with workspace_controls[4]:
-    fill = st.selectbox(
-        "Fill",
-        FILL_OPTIONS,
-        index=0,
-        key=f"fill_{selected_table}",
-    )
-
-st.markdown("</div>", unsafe_allow_html=True)
-
-search_match_count = get_search_match_count(df, search)
-if search.strip():
-    st.markdown(
-        f'<div class="workspace-toolbar-note">Search matches: {search_match_count} row(s) across the active table.</div>',
-        unsafe_allow_html=True,
-    )
-
-st.markdown(build_editor_css(font, size, align, fill), unsafe_allow_html=True)
 
 view = f"view_{selected_table}"
 if view not in st.session_state:
