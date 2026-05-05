@@ -258,13 +258,9 @@ def merge_visible_and_hidden_columns(view_df: pd.DataFrame, original_df: pd.Data
     return merged_df[original_df.columns]
 
 
-def parse_columns(columns_text: str, db_type: str):
+def parse_columns(columns_text: str):
     cols = []
-    type_mapping = {
-        "sqlite": {"int": "INTEGER", "str": "TEXT", "float": "REAL"},
-        "postgres": {"int": "INTEGER", "str": "TEXT", "float": "NUMERIC"},
-        "mysql": {"int": "INT", "str": "VARCHAR(255)", "float": "DECIMAL(10,2)"},
-    }
+    sqlite_aliases = {"int": "INTEGER", "str": "TEXT", "float": "REAL"}
 
     for line_num, line in enumerate(columns_text.split("\n"), 1):
         line = line.strip()
@@ -279,8 +275,8 @@ def parse_columns(columns_text: str, db_type: str):
         name = name.strip()
         col_type = col_type.strip().upper()
 
-        if db_type in type_mapping and col_type.lower() in type_mapping[db_type]:
-            col_type = type_mapping[db_type][col_type.lower()]
+        if col_type.lower() in sqlite_aliases:
+            col_type = sqlite_aliases[col_type.lower()]
 
         cols.append(f"{name} {col_type}")
 
@@ -326,7 +322,7 @@ if "db_engine" not in st.session_state or st.session_state.db_engine is None:
     st.stop()
 
 engine = st.session_state.db_engine
-db_type = st.session_state.get("db_type", "unknown")
+db_type = "sqlite"
 
 try:
     tables = get_tables(engine)
@@ -370,7 +366,7 @@ age:INTEGER""",
     with c1:
         if st.button("Create Table", width="stretch", type="primary", key="first_table_create"):
             try:
-                cols = parse_columns(columns, db_type)
+                cols = parse_columns(columns)
                 create_table(engine, table_name, cols)
                 st.success("Table created successfully.")
                 st.rerun()
@@ -600,7 +596,7 @@ created_at:DATE""",
     with c1:
         if st.button("Create Table", width="stretch", type="primary", key="new_table_create"):
             try:
-                cols = parse_columns(columns, db_type)
+                cols = parse_columns(columns)
                 create_table(engine, table_name, cols)
                 st.success("New table created successfully.")
                 st.session_state.show_create = False

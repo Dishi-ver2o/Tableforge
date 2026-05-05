@@ -1371,7 +1371,7 @@ st.markdown("""
     <div class="logo">⚡ TableForge</div>
     <div class="nav-links">
         <div class="nav-link">Visual Editing</div>
-        <div class="nav-link">Multi-Database</div>
+        <div class="nav-link">SQLite-first</div>
         <div class="nav-link">Zero SQL</div>
     </div>
 </div>
@@ -1423,7 +1423,7 @@ st.markdown("""
 
     <p class="hero-description">
         TableForge transforms complex database operations into an intuitive visual experience.
-        Connect to SQLite, MySQL, or PostgreSQL and start editing in seconds.
+        Connect to SQLite and start editing in seconds.
     </p>
 
     <div class="hero-visual-shell">
@@ -1494,8 +1494,8 @@ st.markdown("""
                 </div>
                 <div class="showcase-metrics">
                     <div class="metric-pill">
-                        <strong>3</strong>
-                        <span>Database engines</span>
+                        <strong>1</strong>
+                        <span>Database engine</span>
                     </div>
                     <div class="metric-pill">
                         <strong>0</strong>
@@ -1522,8 +1522,8 @@ st.markdown("""
 st.markdown("""
 <div class="stats-bar">
     <div class="stat-item">
-        <div class="stat-number">2+</div>
-        <div class="stat-label">Database Types</div>
+        <div class="stat-number">1</div>
+        <div class="stat-label">Database Type</div>
     </div>
     <div class="stat-divider"></div>
     <div class="stat-item">
@@ -1569,8 +1569,8 @@ with f2:
     st.markdown("""
     <div class="feature-card">
         <div class="feature-icon-wrapper cyan">🗄️</div>
-        <h3>Multi-DB Support</h3>
-        <p>Seamlessly connect to SQLite, MySQL, and PostgreSQL. Switch between databases in one click.</p>
+        <h3>SQLite Focus</h3>
+        <p>Connect to a local SQLite database and manage it visually without extra server setup.</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -1598,7 +1598,7 @@ st.markdown("""
         <div class="step-number s1">1</div>
         <div class="step-connector"></div>
         <h4>Connect</h4>
-        <p>Enter your database credentials or select a local SQLite file.</p>
+        <p>Select your local SQLite file and open it instantly.</p>
     </div>
     <div class="step-card">
         <div class="step-number s2">2</div>
@@ -1622,8 +1622,6 @@ st.markdown("""
     <div class="tech-badge">🐍 Python</div>
     <div class="tech-badge">🎯 Streamlit</div>
     <div class="tech-badge">🗃️ SQLite</div>
-    <div class="tech-badge">🐬 MySQL</div>
-    <div class="tech-badge">🐘 PostgreSQL</div>
     <div class="tech-badge">📊 Pandas</div>
 </div>
 """, unsafe_allow_html=True)
