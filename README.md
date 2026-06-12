@@ -70,7 +70,7 @@ It gives users full control over their data through a simpler and more approacha
 
 ## Multi-Database Support
 
-TableForge supports multiple database engines:
+TableForge supports multiple database engines such as:
 
 * SQLite
 * MySQL
